@@ -25,7 +25,7 @@ public class Tetrimino
         _shape = shape;
     }
 
-    public Tetrimino GetRamdomTetrimino()
+    public static Tetrimino GetRandomTetrimino()
     {
         Random random = new Random();
         int randomIndex = random.Next(0, TetriminoList.Count);
