@@ -1,17 +1,37 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
-public class TetriminoGrid<T> : MonoBehaviour
+namespace Gameplay
 {
-    public static int Width = 4;
-    public static int Height = 4;
-    public T[] Cells = new T[Width * Height];
 
-    public void ColorGrid()
+    public class TetriminoGrid : MonoBehaviour
     {
-        Console.WriteLine(Tetrimino.GetRandomTetrimino());
-        
+
+        private readonly int width = 4;
+        private readonly int height = 4;
+        [SerializeField]
+        private Tilemap _groundTilemap;
+
+        [SerializeField]
+        private TileBase[] _groundTiles;
+
+        [ContextMenu("Generate TetriminoGrid")]
+        public void Generate()
+        {
+            var cave = new Cave(width, height);
+            _groundTilemap.ClearAllTiles();
+            //populate
+            foreach (var cell in cave.Grid.Cells)
+            {
+                var ground = _groundTiles[0];
+                _groundTilemap.SetTile(new Vector3Int(cell.X, cell.Y, 0), ground);
+            }
+        }
+        [ContextMenu("Generate Tetrimino")]
+        public void ColorGrid()
+        {
+            Debug.Log(string.Format(Tetrimino.GetRandomTetrimino().Name));
+
+        }
     }
 }

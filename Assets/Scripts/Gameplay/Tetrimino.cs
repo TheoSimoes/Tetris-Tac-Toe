@@ -1,35 +1,36 @@
 using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 public class Tetrimino
 {
-    private int [,] _shape;
-    private static List<int[,]> TetriminoList = new List<int[,]>
+    public string Name { get; set; }
+    
+    public int[] Shape { get; set; }
+
+    public Tetrimino(string name, int[] shape)
     {
-        new int[,] {{1, 1}, {1, 1}},  // Square
-        new int[,] {{1, 1, 1, 1}}, // Line
-        new int[,] {{1, 1, 1}, {0, 1, 0}}, // T
-        new int[,] {{1, 1, 0}, {0, 1, 1}}, // Z
-        new int[,] {{0, 1, 1}, {1, 1, 0}}, // S
-        new int[,] {{0, 0, 1}, {1, 1, 1}}, // L
-        new int[,] {{1, 0}, {1, 0}, {1, 1}} // J
+        Name = name;
+        Shape = shape;
+    }
+
+    // 0 is empty, 1 is full, 2 is to jump line
+    private static readonly List<Tetrimino> TetriminoList = new List<Tetrimino>
+    {
+        new("Square", new int[] {1, 1, 2, 1, 1}),
+        new("Line", new int[] {1, 1, 1, 1}),
+        new("T", new int[]  {1, 1, 1, 2, 0, 1, 0}),
+        new("Z", new int[] {1, 1, 0, 2, 0, 1, 1}),
+        new("S", new int[] {0, 1, 1, 2, 1, 1, 0}),
+        new("L", new int[] {0, 0, 1, 2, 1, 1, 1}),
+        new("J", new int[] {1, 1, 1, 2, 0, 0, 1})
     };
-
-    public int [,] Shape {
-        get { return _shape; }
-        set { _shape = value; }
-    }
-
-    public Tetrimino(int[,] shape)
-    {
-        _shape = shape;
-    }
 
     public static Tetrimino GetRandomTetrimino()
     {
-        Random random = new Random();
+        Random random = new ();
         int randomIndex = random.Next(0, TetriminoList.Count);
-        int [,] randomTetrimino = TetriminoList[randomIndex];
-        return new Tetrimino (randomTetrimino);
+        Tetrimino randomTetrimino = TetriminoList[randomIndex];
+        return randomTetrimino;
     }
 }
